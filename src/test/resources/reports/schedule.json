@@ -1,0 +1,7 @@
+[
+  {
+    "reportName": "TestJasper",
+    "recipients": ["test@example.com"],
+    "sendAt": "Every 7 days starting on Sunday"
+  }
+]

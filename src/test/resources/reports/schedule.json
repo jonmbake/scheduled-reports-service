@@ -1,6 +1,6 @@
 [
   {
-    "reportName": "TestJasper",
+    "report": "TestJasper.jrxml",
     "recipients": ["test@example.com"],
     "sendAt": "Every 7 days starting on Sunday"
   }

@@ -48,8 +48,8 @@ public class ReportDatasource {
      *
      * @return JDBC Connection String
      */
-    private String getJDBCConnectionString () {
-        StringBuilder connectionStr  = new StringBuilder(String.format("jdbc%s://%s",
+    public final String getJDBCConnectionString () {
+        StringBuilder connectionStr  = new StringBuilder(String.format("jdbc:%s://%s",
                 EnvironmentVariables.DB_DRIVER.getValue(), EnvironmentVariables.DB_URL.getValue()));
         if (EnvironmentVariables.DB_PORT.isSet()) {
             connectionStr.append(":").append(EnvironmentVariables.DB_PORT.getValue());

@@ -4,8 +4,8 @@ import com.jonbake.report.exception.ConfigurationException;
 
 import java.time.DayOfWeek;
 import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -17,9 +17,12 @@ import static java.time.temporal.TemporalAdjusters.next;
 public final class ScheduledReport {
     private static final String SEND_AT_REGEX = "Every (\\d+) days starting on (.+)";
     private static final Pattern SEND_AT_PATTERN = Pattern.compile(SEND_AT_REGEX);
+
     private String report;
     private List<String> recipients;
     private String sendAt;
+    private String subject;
+    private String outputFormat;
 
     public String getReport () {
         return report;
@@ -33,12 +36,47 @@ public final class ScheduledReport {
         return sendAt;
     }
 
+    public String getSubject () {
+        return subject;
+    }
+
+    public String getOutputFormat () {
+        return outputFormat;
+    }
+
+    public String getReportBaseName () {
+        return getReport().split("\\.")[0];
+    }
+
+    public String getGeneratedReportName () {
+        return String.format("%s.%s", getReportBaseName(), getOutputFormat().toLowerCase());
+    }
+    /**
+     * Get content type based on outputFormat.
+     *
+     * @return content type
+     */
+    public String getContentType () {
+        switch (getOutputFormat()) {
+            case "PDF":
+                return "application/pdf";
+            case "XLS":
+                return "application/vnd.ms-excel";
+            default:
+                return null;
+        }
+    }
+
     /**
      * Get start delay.
      *
      * @return start delay
      */
     public long getStartDelay () {
+        String day = parseSendAt(2).toUpperCase();
+        if ("today".equals(day)) {
+            return 0;
+        }
         LocalDate now = LocalDate.now();
         LocalDate start;
         try {
@@ -48,7 +86,7 @@ public final class ScheduledReport {
                     "Invalid day of week specified for sendAt for %s.", report
             ));
         }
-        return start.toEpochDay() - now.toEpochDay();
+        return ChronoUnit.DAYS.between(now, start);
     }
 
     /**
@@ -57,15 +95,13 @@ public final class ScheduledReport {
      * @return send period
      */
     public long getSendPeriod () {
-        Integer period;
         try {
-            period = Integer.valueOf(parseSendAt(1));
+            return Long.valueOf(parseSendAt(1));
         } catch (Exception e) {
             throw new ConfigurationException(String.format(
                     "Invalid number of days specified for sendAt for %s.", report
             ));
         }
-        return TimeUnit.DAYS.toMillis(period);
     }
 
     /**

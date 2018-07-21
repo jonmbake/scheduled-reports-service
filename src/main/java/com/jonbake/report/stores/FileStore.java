@@ -13,5 +13,5 @@ public interface FileStore {
      * @return file input stream
      * @throws Exception - if file can not be retrieved for any reason
      */
-    InputStream getFile (String name) throws Exception;
+    InputStream getFile (String name);
 }

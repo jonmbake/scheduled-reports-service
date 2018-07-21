@@ -2,6 +2,8 @@
   {
     "report": "TestJasper.jrxml",
     "recipients": ["test@example.com"],
+    "outputFormat": "PDF",
+    "subject": "Test Jasper Report",
     "sendAt": "Every 7 days starting on Sunday"
   }
 ]

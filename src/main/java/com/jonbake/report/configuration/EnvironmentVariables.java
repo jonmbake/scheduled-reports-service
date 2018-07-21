@@ -12,7 +12,14 @@ public enum EnvironmentVariables {
     DB_PORT(null),
     DB_NAME(null),
     REPORT_DIRECTORY(null),
-    S3_REPORT_BUCKET(null);
+    S3_REPORT_BUCKET(null),
+    SES_USERNAME(null),
+    SES_PASSWORD(null),
+    SMTP_HOST(null),
+    SMTP_USERNAME(null),
+    SMTP_PASSWORD(null),
+    SMTP_PORT("587"),
+    ADMIN_ADDRESS(null);
 
     private final String defaultValue;
 

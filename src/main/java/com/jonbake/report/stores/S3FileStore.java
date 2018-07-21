@@ -22,7 +22,7 @@ public final class S3FileStore implements FileStore {
      * {@inheritDoc}
      */
     @Override
-    public InputStream getFile (final String name) throws Exception {
+    public InputStream getFile (final String name) {
         return s3Client.getObject(new GetObjectRequest(EnvironmentVariables.S3_REPORT_BUCKET.getValue(), name))
                 .getObjectContent();
     }
